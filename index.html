@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Название автосалона</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0D0E11;
+    --bg-alt:#151519;
+    --surface:#1C1D22;
+    --ink:#F4F4F2;
+    --ink-soft:#B7B7B4;
+    --muted:#75767B;
+    --red:#E1312A;
+    --red-deep:#B32620;
+    --border:#2B2C32;
+    --font-display:'Oswald', sans-serif;
+    --font-sans:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--font-sans);
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.6;
+    font-size:16px;
+  }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  .wrap{ max-width:1220px; margin:0 auto; padding:0 24px; }
+  h1,h2,h3{ font-family:var(--font-display); font-weight:600; line-height:1.15; }
+  h2{ font-size:34px; text-transform:uppercase; letter-spacing:0.01em; }
+  h3{ font-size:19px; font-weight:600; }
+  p{ color:var(--ink-soft); }
+  .eyebrow{ font-size:14px; color:var(--red); font-weight:600; margin-bottom:10px; }
+
+  .btn{
+    display:inline-block;
+    font-family:var(--font-sans);
+    font-weight:600;
+    font-size:15px;
+    padding:14px 30px;
+    border-radius:999px;
+    border:1px solid var(--red);
+    background:var(--red);
+    color:#fff;
+    cursor:pointer;
+  }
+  .btn:hover{ background:var(--red-deep); border-color:var(--red-deep); }
+  .btn-outline{ background:transparent; border-color:#fff; color:#fff; }
+  .btn-outline:hover{ background:#fff; color:var(--bg); }
+  .btn-ghost{ background:transparent; border-color:var(--border); color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--red); color:var(--red); }
+
+  .img-slot{
+    background:var(--bg-alt);
+    border:1px dashed #3A3B42;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center; color:var(--muted); font-size:13px; line-height:1.5;
+    padding:16px; width:100%;
+  }
+  .photo{ width:100%; height:auto; object-fit:cover; display:block; background:var(--bg-alt); }
+  .ratio-hero{ aspect-ratio:16/8; min-height:560px; }
+  .ratio-wide{ aspect-ratio:4/3; }
+  .ratio-square{ aspect-ratio:1/1; }
+  .ratio-logo{ aspect-ratio:3/1; }
+
+  .utility-bar{ background:#000; color:var(--ink-soft); font-size:13px; }
+  .utility-bar .wrap{ display:flex; justify-content:flex-end; gap:28px; align-items:center; padding:9px 24px; flex-wrap:wrap; }
+  .utility-bar strong{ color:var(--ink); font-weight:500; }
+
+  header.site{ background:var(--bg-alt); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:30; }
+  .header-row{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; gap:24px; }
+  .logo{ font-family:var(--font-display); font-size:24px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; white-space:nowrap; }
+  .logo span{ color:var(--red); }
+  nav.main-nav{ display:flex; gap:24px; font-size:14.5px; font-weight:500; flex-wrap:wrap; }
+  nav.main-nav a:hover{ color:var(--red); }
+  .header-actions{ display:flex; align-items:center; gap:16px; }
+  .icon-btn{ background:none; border:none; color:var(--ink); font-size:20px; cursor:pointer; }
+  .icon-btn:hover{ color:var(--red); }
+  .menu-toggle{ display:none; background:none; border:none; font-size:26px; cursor:pointer; color:var(--ink); }
+
+  .hero{ position:relative; overflow:hidden; padding:0; }
+  .slide{ position:relative; display:none; }
+  .slide.active{ display:block; }
+  .slide .img-slot, .slide .photo{ position:relative; }
+  .hero-overlay{
+    position:absolute; inset:0;
+    background:linear-gradient(100deg, rgba(6,7,9,.78) 0%, rgba(6,7,9,.42) 45%, rgba(6,7,9,.05) 75%);
+  }
+  .slide-content{
+    position:absolute; top:50%; left:0; transform:translateY(-50%);
+    max-width:1220px; width:100%; margin:0 auto; padding:0 84px;
+  }
+  .slide-content .inner{ max-width:520px; }
+  .slide-content h2{ color:#fff; font-size:48px; margin-bottom:16px; }
+  .slide-content p{ color:#E7E6E3; font-size:17px; margin-bottom:26px; }
+  .hero-arrow{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:44px; height:44px; border-radius:50%;
+    background:rgba(13,14,17,.55); border:1px solid rgba(255,255,255,.25);
+    color:#fff; font-size:20px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; z-index:5;
+  }
+  .hero-arrow:hover{ background:var(--red); border-color:var(--red); }
+  .hero-arrow.prev{ left:20px; }
+  .hero-arrow.next{ right:20px; }
+  .hero-dots{ position:absolute; bottom:22px; left:0; right:0; display:flex; justify-content:center; gap:8px; z-index:5; }
+  .hero-dots button{ width:9px; height:9px; border-radius:50%; border:none; background:rgba(255,255,255,.35); cursor:pointer; padding:0; }
+  .hero-dots button.active{ background:var(--red); width:22px; border-radius:5px; }
+
+  .call-float{
+    position:fixed; right:24px; bottom:24px; z-index:50;
+    width:56px; height:56px; border-radius:50%;
+    background:var(--red); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    border:none; cursor:pointer;
+  }
+  .call-float:hover{ background:var(--red-deep); }
+
+  section{ padding:90px 0; }
+  .section-tight{ padding:60px 0; }
+  .bg-alt{ background:var(--bg-alt); }
+  .section-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:40px; }
+
+  /* cars grid */
+  .cars-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; }
+  .car-card{ background:var(--surface); border:1px solid var(--border); }
+  .car-card .body{ padding:18px 20px 22px; }
+  .car-card h3{ margin-bottom:6px; }
+  .car-specs{ font-size:13px; color:var(--muted); margin-bottom:14px; }
+  .car-price{ font-family:var(--font-display); font-size:22px; color:var(--red); margin-bottom:14px; }
+  .car-card .btn-ghost{ width:100%; text-align:center; padding:10px; font-size:14px; }
+
+  /* finance */
+  .finance-grid{ display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  .finance-card{ background:var(--surface); border:1px solid var(--border); padding:36px; }
+  .finance-card ul{ margin:18px 0 24px; display:flex; flex-direction:column; gap:10px; }
+  .finance-card li{ font-size:14.5px; color:var(--ink-soft); padding-left:18px; position:relative; }
+  .finance-card li::before{ content:''; position:absolute; left:0; top:9px; width:6px; height:6px; background:var(--red); }
+
+  /* trade-in */
+  .steps-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:28px; }
+  .step .num{ font-family:var(--font-display); font-size:36px; color:var(--red); display:block; margin-bottom:10px; }
+  .step p{ font-size:14px; }
+
+  /* banks */
+  .banks-row{ display:flex; flex-wrap:wrap; gap:20px; }
+  .banks-row .img-slot{ width:170px; height:70px; font-size:12px; }
+
+  /* reviews */
+  .reviews-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; }
+  .review-card{ background:var(--surface); border:1px solid var(--border); padding:26px; }
+  .review-card .stars{ color:var(--red); font-size:14px; margin-bottom:12px; letter-spacing:2px; }
+  .review-card p{ font-size:14.5px; margin-bottom:16px; }
+  .review-author{ display:flex; align-items:center; gap:12px; }
+  .review-author .img-slot{ width:40px; height:40px; border-radius:50%; font-size:9px; padding:2px; }
+  .review-author b{ font-size:14px; display:block; }
+  .review-author span{ font-size:12px; color:var(--muted); }
+
+  /* about */
+  .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; }
+  .stats-row{ display:flex; gap:36px; margin-top:28px; }
+  .stat b{ font-family:var(--font-display); font-size:30px; color:var(--red); display:block; }
+  .stat span{ font-size:13px; color:var(--muted); }
+
+  /* contacts */
+  .contacts-grid{ display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+  .contact-info li{ display:flex; gap:12px; font-size:14.5px; color:var(--ink-soft); padding:10px 0; border-bottom:1px solid var(--border); }
+  .contact-info b{ color:var(--ink); min-width:110px; display:inline-block; }
+  .lead-form input, .lead-form textarea{
+    width:100%; font-family:var(--font-sans); font-size:14px; color:var(--ink);
+    background:var(--surface); border:1px solid var(--border); padding:12px 14px; margin-bottom:12px; border-radius:2px;
+  }
+  .lead-form textarea{ min-height:80px; resize:vertical; }
+  .lead-form .btn{ width:100%; text-align:center; border:none; }
+  .lead-form .fine{ font-size:12px; color:var(--muted); margin-top:10px; }
+
+  footer{ background:#000; padding:60px 0 22px; font-size:14px; }
+  .footer-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:36px; padding-bottom:40px; border-bottom:1px solid var(--border); }
+  footer h4{ font-size:14px; margin-bottom:14px; color:#fff; }
+  footer ul{ display:flex; flex-direction:column; gap:9px; color:var(--ink-soft); }
+  footer ul a:hover{ color:var(--red); }
+  .footer-bottom{ display:flex; justify-content:space-between; padding-top:20px; font-size:13px; color:var(--muted); flex-wrap:wrap; gap:8px; }
+
+  @media (max-width:900px){
+    nav.main-nav{
+      display:none; position:absolute; top:100%; left:0; right:0;
+      background:var(--bg-alt); border-bottom:1px solid var(--border);
+      flex-direction:column; padding:18px 24px; gap:14px;
+    }
+    nav.main-nav.open{ display:flex; }
+    .menu-toggle{ display:block; }
+    .utility-bar .wrap{ justify-content:center; text-align:center; }
+    .slide-content h2{ font-size:32px; }
+    .slide-content{ padding:0 24px; }
+    .hero-arrow{ display:none; }
+    .ratio-hero{ min-height:460px; }
+    .cars-grid{ grid-template-columns:1fr 1fr; }
+    .finance-grid{ grid-template-columns:1fr; }
+    .steps-grid{ grid-template-columns:1fr 1fr; }
+    .reviews-grid{ grid-template-columns:1fr; }
+    .about-grid{ grid-template-columns:1fr; gap:32px; }
+    .contacts-grid{ grid-template-columns:1fr; }
+    .footer-grid{ grid-template-columns:1fr; gap:26px; }
+  }
+  @media (max-width:560px){
+    .cars-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!--
+  ИНСТРУКЦИЯ ПО ФОТО
+  Каждое место под изображение — div.img-slot с подписью внутри.
+  Чтобы вставить фото: удалите div.img-slot целиком (включая текст-подсказку и закрывающий </div>)
+  и поставьте вместо него <img src="файл.jpg" alt="описание" class="СОХРАНИТЕ_ТОТ_ЖЕ_КЛАСС"
+  style="width:100%; height:100%; object-fit:cover; display:block;">
+-->
+
+<div class="utility-bar">
+  <div class="wrap">
+    <span>Ежедневно с 8:00 до 21:00</span>
+    <span>г. Город, ул. Улица, д. 1</span>
+    <span><strong>+7 (___) ___-__-__</strong></span>
+  </div>
+</div>
+
+<header class="site">
+  <div class="header-row">
+    <div class="logo">Авто<span>салон</span></div>
+    <nav class="main-nav" id="mainNav">
+      <a href="#stock">В наличии</a>
+      <a href="#finance">Автокредит</a>
+      <a href="#finance">Рассрочка</a>
+      <a href="#trade-in">Trade-In</a>
+      <a href="#banks">Банки</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contacts">Контакты</a>
+      <a href="#about">О компании</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="wishlistBtn" aria-label="Избранное">&#9825;</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="slide active">
+    <!-- ФОТО 1: автомобиль на фоне города, широкий кадр -->
+    <img src="img/mercedes-g63.webp" alt="Mercedes-AMG G 63 на фоне Москва-Сити" class="photo ratio-hero">
+    <div class="hero-overlay"></div>
+    <div class="slide-content">
+      <div class="inner">
+        <h2>Рассрочка</h2>
+        <p>До 36 месяцев без первого взноса</p>
+        <a href="#finance" class="btn">Подробнее</a>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <!-- ФОТО 2: автомобиль, другой ракурс или модель -->
+    <img src="img/bmw-x6.jpg" alt="BMW X6 на загородной трассе" class="photo ratio-hero" loading="lazy">
+    <div class="hero-overlay"></div>
+    <div class="slide-content">
+      <div class="inner">
+        <h2>Trade-In</h2>
+        <p>Оценим ваш автомобиль за 30 минут и учтём стоимость в новой покупке</p>
+        <a href="#trade-in" class="btn">Узнать больше</a>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <!-- ФОТО 3: автомобиль в шоуруме или на трассе -->
+    <img src="img/lexus-es.jpg" alt="Lexus ES на трассе" class="photo ratio-hero" loading="lazy">
+    <div class="hero-overlay"></div>
+    <div class="slide-content">
+      <div class="inner">
+        <h2>Автокредит</h2>
+        <p>Одобрение за 15 минут, ставка от 4,9% с господдержкой</p>
+        <a href="#finance" class="btn">Оставить заявку</a>
+      </div>
+    </div>
+  </div>
+  <button class="hero-arrow prev" id="prevSlide" aria-label="Предыдущий слайд">&#8249;</button>
+  <button class="hero-arrow next" id="nextSlide" aria-label="Следующий слайд">&#8250;</button>
+  <div class="hero-dots" id="heroDots"></div>
+</section>
+
+<button class="call-float" id="callFloat" aria-label="Позвонить">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+</button>
+
+<section id="stock">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">В наличии</div>
+        <h2>Автомобили в наличии</h2>
+      </div>
+      <a href="#" class="btn-ghost btn" style="padding:12px 24px;">Весь каталог</a>
+    </div>
+    <div class="cars-grid">
+
+      <div class="car-card">
+        <!-- ФОТО 4: авто карточка 1 -->
+        <a href="car-rolls-royce-cullinan.html"><img src="img/rolls-royce-cullinan.jpg" alt="Rolls-Royce Cullinan" class="photo ratio-wide" loading="lazy"></a>
+        <div class="body">
+          <h3>Rolls-Royce Cullinan</h3>
+          <div class="car-specs">2025 г. · АКПП · бензин</div>
+          <div class="car-price">от 54 900 000 ₽</div>
+          <a href="car-rolls-royce-cullinan.html" class="btn btn-ghost">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="car-card">
+        <!-- ФОТО 5: авто карточка 2 -->
+        <a href="car-bentley-bentayga.html"><img src="img/bentley-bentayga.jpg" alt="Bentley Bentayga" class="photo ratio-wide" loading="lazy"></a>
+        <div class="body">
+          <h3>Bentley Bentayga</h3>
+          <div class="car-specs">2025 г. · АКПП · бензин</div>
+          <div class="car-price">от 29 900 000 ₽</div>
+          <a href="car-bentley-bentayga.html" class="btn btn-ghost">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="car-card">
+        <!-- ФОТО 6: авто карточка 3 -->
+        <a href="car-mercedes-amg-gt.html"><img src="img/mercedes-amg-gt.jpg" alt="Mercedes-AMG GT 63 4-Door" class="photo ratio-wide" loading="lazy"></a>
+        <div class="body">
+          <h3>Mercedes-AMG GT 63 4-Door</h3>
+          <div class="car-specs">2024 г. · АКПП · бензин</div>
+          <div class="car-price">от 18 500 000 ₽</div>
+          <a href="car-mercedes-amg-gt.html" class="btn btn-ghost">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="car-card">
+        <!-- ФОТО 7: авто карточка 4 -->
+        <a href="car-nissan-gtr.html"><img src="img/nissan-gtr.jpg" alt="Nissan GT-R" class="photo ratio-wide" loading="lazy"></a>
+        <div class="body">
+          <h3>Nissan GT-R</h3>
+          <div class="car-specs">2023 г. · РКПП · бензин</div>
+          <div class="car-price">от 13 900 000 ₽</div>
+          <a href="car-nissan-gtr.html" class="btn btn-ghost">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="car-card">
+        <!-- ФОТО 8: авто карточка 5 -->
+        <a href="car-porsche-cayenne.html"><img src="img/porsche-cayenne.webp" alt="Porsche Cayenne Coupé" class="photo ratio-wide" loading="lazy"></a>
+        <div class="body">
+          <h3>Porsche Cayenne Coupé</h3>
+          <div class="car-specs">2025 г. · АКПП · бензин</div>
+          <div class="car-price">от 14 200 000 ₽</div>
+          <a href="car-porsche-cayenne.html" class="btn btn-ghost">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="car-card">
+        <!-- ФОТО 9: авто карточка 6 -->
+        <a href="car-bmw-8-cabrio.html"><img src="img/bmw-8-cabrio.jpg" alt="BMW 8 Cabriolet" class="photo ratio-wide" loading="lazy"></a>
+        <div class="body">
+          <h3>BMW 8 Cabriolet</h3>
+          <div class="car-specs">2025 г. · АКПП · бензин</div>
+          <div class="car-price">от 12 800 000 ₽</div>
+          <a href="car-bmw-8-cabrio.html" class="btn btn-ghost">Подробнее</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="finance" class="bg-alt">
+  <div class="wrap">
+    <div class="eyebrow">Автокредит и рассрочка</div>
+    <h2>Удобные способы покупки</h2>
+    <div class="finance-grid" style="margin-top:36px;">
+      <div class="finance-card">
+        <h3>Автокредит</h3>
+        <p>Оформляем кредит от банков-партнёров без лишних визитов в офис.</p>
+        <ul>
+          <li>Ставка от 4,9% годовых</li>
+          <li>Решение за 15 минут</li>
+          <li>Минимальный пакет документов</li>
+        </ul>
+        <a href="#contacts" class="btn">Оставить заявку</a>
+      </div>
+      <div class="finance-card">
+        <h3>Рассрочка</h3>
+        <p>Беспроцентная рассрочка от автосалона без участия банка.</p>
+        <ul>
+          <li>До 36 месяцев</li>
+          <li>Без первого взноса</li>
+          <li>Без переплат и скрытых комиссий</li>
+        </ul>
+        <a href="#contacts" class="btn">Оставить заявку</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trade-in">
+  <div class="wrap">
+    <div class="eyebrow">Trade-In</div>
+    <h2>Обмен старого авто на новое</h2>
+    <div class="steps-grid" style="margin-top:36px;">
+      <div class="step">
+        <span class="num">1</span>
+        <h3>Оценка</h3>
+        <p>Осматриваем автомобиль и называем цену в течение 30 минут.</p>
+      </div>
+      <div class="step">
+        <span class="num">2</span>
+        <h3>Выбор нового авто</h3>
+        <p>Подбираем модель из наличия под ваш бюджет.</p>
+      </div>
+      <div class="step">
+        <span class="num">3</span>
+        <h3>Оформление</h3>
+        <p>Готовим документы по сделке и договор trade-in.</p>
+      </div>
+      <div class="step">
+        <span class="num">4</span>
+        <h3>Доплата</h3>
+        <p>Доплачиваете разницу — наличными, картой или в кредит.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="banks" class="bg-alt">
+  <div class="wrap">
+    <div class="eyebrow">Банки-партнёры</div>
+    <h2>Работаем с ведущими банками</h2>
+    <div class="banks-row" style="margin-top:32px;">
+      <div class="img-slot ratio-logo">Лого банка 1</div>
+      <div class="img-slot ratio-logo">Лого банка 2</div>
+      <div class="img-slot ratio-logo">Лого банка 3</div>
+      <div class="img-slot ratio-logo">Лого банка 4</div>
+      <div class="img-slot ratio-logo">Лого банка 5</div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="wrap">
+    <div class="eyebrow">Отзывы</div>
+    <h2>Что говорят клиенты</h2>
+    <div class="reviews-grid" style="margin-top:36px;">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>«Забрал автомобиль день в день, менеджер подробно объяснил все условия рассрочки».</p>
+        <div class="review-author">
+          <div class="img-slot">Ф.10<br>80×80</div>
+          <div><b>Имя Фамилия</b><span>купил Rolls-Royce Cullinan</span></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>«Оценили мой старый автомобиль честно, доплата оказалась меньше, чем я ожидал».</p>
+        <div class="review-author">
+          <div class="img-slot">Ф.11<br>80×80</div>
+          <div><b>Имя Фамилия</b><span>trade-in, Bentley Bentayga</span></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>«Кредит одобрили быстро, ставка оказалась ниже, чем в банке напрямую».</p>
+        <div class="review-author">
+          <div class="img-slot">Ф.12<br>80×80</div>
+          <div><b>Имя Фамилия</b><span>купил Mercedes-AMG GT 63 4-Door</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="bg-alt">
+  <div class="wrap about-grid">
+    <div>
+      <div class="eyebrow">О компании</div>
+      <h2>Автосалон, которому доверяют</h2>
+      <p>Продаём новые и проверенные автомобили, помогаем с кредитом, рассрочкой и trade-in. Работаем прозрачно — цена в объявлении совпадает с ценой в договоре.</p>
+      <div class="stats-row">
+        <div class="stat"><b>10 лет</b><span>на рынке</span></div>
+        <div class="stat"><b>3 000+</b><span>проданных авто</span></div>
+        <div class="stat"><b>15</b><span>банков-партнёров</span></div>
+      </div>
+    </div>
+    <!-- ФОТО 13: шоурум или команда -->
+    <div class="img-slot ratio-wide">Фото 13 — шоурум<br>1200×900</div>
+  </div>
+</section>
+
+<section id="contacts">
+  <div class="wrap contacts-grid">
+    <div>
+      <div class="eyebrow">Контакты</div>
+      <h2>Как нас найти</h2>
+      <ul class="contact-info" style="margin-top:24px;">
+        <li><b>Адрес</b> г. Город, ул. Улица, д. 1</li>
+        <li><b>Телефон</b> +7 (___) ___-__-__</li>
+        <li><b>Режим работы</b> ежедневно с 8:00 до 21:00</li>
+        <li><b>E-mail</b> info@автосалон.ru</li>
+      </ul>
+      <!-- ФОТО 14: карта проезда (скриншот Я.Карт / Google Maps) -->
+      <div class="img-slot ratio-wide" style="margin-top:24px;">Фото 14 — карта проезда<br>1200×700</div>
+    </div>
+    <div class="lead-form">
+      <h3 style="margin-bottom:16px;">Оставить заявку</h3>
+      <input type="text" placeholder="Ваше имя">
+      <input type="tel" placeholder="Телефон">
+      <textarea placeholder="Интересующая модель или вопрос"></textarea>
+      <button class="btn">Отправить заявку</button>
+      <p class="fine">Нажимая кнопку, вы соглашаетесь с политикой обработки данных.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="margin-bottom:14px;">Авто<span>салон</span></div>
+        <p style="max-width:34ch;">Продажа новых и проверенных автомобилей, автокредит, рассрочка и trade-in.</p>
+      </div>
+      <div>
+        <h4>Навигация</h4>
+        <ul>
+          <li><a href="#stock">В наличии</a></li>
+          <li><a href="#finance">Автокредит и рассрочка</a></li>
+          <li><a href="#trade-in">Trade-In</a></li>
+          <li><a href="#reviews">Отзывы</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Контакты</h4>
+        <ul>
+          <li>+7 (___) ___-__-__</li>
+          <li>info@автосалон.ru</li>
+          <li>г. Город, ул. Улица, д. 1</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Название автосалона. Все права защищены.</span>
+      <span>Сайт разработан [ваше имя / студия]</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('menuToggle').addEventListener('click', function(){
+    document.getElementById('mainNav').classList.toggle('open');
+  });
+  document.getElementById('wishlistBtn').addEventListener('click', function(){
+    this.style.color = this.style.color === 'var(--red)' ? '' : 'var(--red)';
+  });
+
+  (function(){
+    var slides = Array.from(document.querySelectorAll('.slide'));
+    var dotsWrap = document.getElementById('heroDots');
+    var current = 0;
+    var timer;
+
+    slides.forEach(function(_, i){
+      var dot = document.createElement('button');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', function(){ goTo(i); });
+      dotsWrap.appendChild(dot);
+    });
+    var dots = Array.from(dotsWrap.children);
+
+    function goTo(index){
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+    function next(){ goTo(current + 1); }
+    function prev(){ goTo(current - 1); }
+
+    document.getElementById('nextSlide').addEventListener('click', function(){ next(); resetTimer(); });
+    document.getElementById('prevSlide').addEventListener('click', function(){ prev(); resetTimer(); });
+
+    function resetTimer(){
+      clearInterval(timer);
+      timer = setInterval(next, 6000);
+    }
+    resetTimer();
+  })();
+
+  document.getElementById('callFloat').addEventListener('click', function(){
+    window.location.href = 'tel:+70000000000';
+  });
+</script>
+</body>
+</html>

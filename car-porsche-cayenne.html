@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Porsche Cayenne Coupé — купить в автосалоне</title>
+<meta name="description" content="Porsche Cayenne Coupé 2025 г., 353 л.с., цена от 14 200 000 ₽. Автокредит, рассрочка, trade-in.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0D0E11;
+    --bg-alt:#151519;
+    --surface:#1C1D22;
+    --ink:#F4F4F2;
+    --ink-soft:#B7B7B4;
+    --muted:#75767B;
+    --red:#E1312A;
+    --red-deep:#B32620;
+    --border:#2B2C32;
+    --font-display:'Oswald', sans-serif;
+    --font-sans:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--font-sans);
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.6;
+    font-size:16px;
+  }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  .wrap{ max-width:1220px; margin:0 auto; padding:0 24px; }
+  h1,h2,h3{ font-family:var(--font-display); font-weight:600; line-height:1.15; }
+  h2{ font-size:34px; text-transform:uppercase; letter-spacing:0.01em; }
+  h3{ font-size:19px; font-weight:600; }
+  p{ color:var(--ink-soft); }
+  .eyebrow{ font-size:14px; color:var(--red); font-weight:600; margin-bottom:10px; }
+
+  .btn{
+    display:inline-block;
+    font-family:var(--font-sans);
+    font-weight:600;
+    font-size:15px;
+    padding:14px 30px;
+    border-radius:999px;
+    border:1px solid var(--red);
+    background:var(--red);
+    color:#fff;
+    cursor:pointer;
+  }
+  .btn:hover{ background:var(--red-deep); border-color:var(--red-deep); }
+  .btn-outline{ background:transparent; border-color:#fff; color:#fff; }
+  .btn-outline:hover{ background:#fff; color:var(--bg); }
+  .btn-ghost{ background:transparent; border-color:var(--border); color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--red); color:var(--red); }
+
+  .img-slot{
+    background:var(--bg-alt);
+    border:1px dashed #3A3B42;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center; color:var(--muted); font-size:13px; line-height:1.5;
+    padding:16px; width:100%;
+  }
+  .photo{ width:100%; height:auto; object-fit:cover; display:block; background:var(--bg-alt); }
+  .ratio-hero{ aspect-ratio:16/8; min-height:560px; }
+  .ratio-wide{ aspect-ratio:4/3; }
+  .ratio-square{ aspect-ratio:1/1; }
+  .ratio-logo{ aspect-ratio:3/1; }
+
+  .utility-bar{ background:#000; color:var(--ink-soft); font-size:13px; }
+  .utility-bar .wrap{ display:flex; justify-content:flex-end; gap:28px; align-items:center; padding:9px 24px; flex-wrap:wrap; }
+  .utility-bar strong{ color:var(--ink); font-weight:500; }
+
+  header.site{ background:var(--bg-alt); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:30; }
+  .header-row{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; gap:24px; }
+  .logo{ font-family:var(--font-display); font-size:24px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; white-space:nowrap; }
+  .logo span{ color:var(--red); }
+  nav.main-nav{ display:flex; gap:24px; font-size:14.5px; font-weight:500; flex-wrap:wrap; }
+  nav.main-nav a:hover{ color:var(--red); }
+  .header-actions{ display:flex; align-items:center; gap:16px; }
+  .icon-btn{ background:none; border:none; color:var(--ink); font-size:20px; cursor:pointer; }
+  .icon-btn:hover{ color:var(--red); }
+  .menu-toggle{ display:none; background:none; border:none; font-size:26px; cursor:pointer; color:var(--ink); }
+
+  .hero{ position:relative; overflow:hidden; padding:0; }
+  .slide{ position:relative; display:none; }
+  .slide.active{ display:block; }
+  .slide .img-slot, .slide .photo{ position:relative; }
+  .hero-overlay{
+    position:absolute; inset:0;
+    background:linear-gradient(100deg, rgba(6,7,9,.78) 0%, rgba(6,7,9,.42) 45%, rgba(6,7,9,.05) 75%);
+  }
+  .slide-content{
+    position:absolute; top:50%; left:0; transform:translateY(-50%);
+    max-width:1220px; width:100%; margin:0 auto; padding:0 84px;
+  }
+  .slide-content .inner{ max-width:520px; }
+  .slide-content h2{ color:#fff; font-size:48px; margin-bottom:16px; }
+  .slide-content p{ color:#E7E6E3; font-size:17px; margin-bottom:26px; }
+  .hero-arrow{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:44px; height:44px; border-radius:50%;
+    background:rgba(13,14,17,.55); border:1px solid rgba(255,255,255,.25);
+    color:#fff; font-size:20px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; z-index:5;
+  }
+  .hero-arrow:hover{ background:var(--red); border-color:var(--red); }
+  .hero-arrow.prev{ left:20px; }
+  .hero-arrow.next{ right:20px; }
+  .hero-dots{ position:absolute; bottom:22px; left:0; right:0; display:flex; justify-content:center; gap:8px; z-index:5; }
+  .hero-dots button{ width:9px; height:9px; border-radius:50%; border:none; background:rgba(255,255,255,.35); cursor:pointer; padding:0; }
+  .hero-dots button.active{ background:var(--red); width:22px; border-radius:5px; }
+
+  .call-float{
+    position:fixed; right:24px; bottom:24px; z-index:50;
+    width:56px; height:56px; border-radius:50%;
+    background:var(--red); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    border:none; cursor:pointer;
+  }
+  .call-float:hover{ background:var(--red-deep); }
+
+  section{ padding:90px 0; }
+  .section-tight{ padding:60px 0; }
+  .bg-alt{ background:var(--bg-alt); }
+  .section-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:40px; }
+
+  /* cars grid */
+  .cars-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; }
+  .car-card{ background:var(--surface); border:1px solid var(--border); }
+  .car-card .body{ padding:18px 20px 22px; }
+  .car-card h3{ margin-bottom:6px; }
+  .car-specs{ font-size:13px; color:var(--muted); margin-bottom:14px; }
+  .car-price{ font-family:var(--font-display); font-size:22px; color:var(--red); margin-bottom:14px; }
+  .car-card .btn-ghost{ width:100%; text-align:center; padding:10px; font-size:14px; }
+
+  /* finance */
+  .finance-grid{ display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  .finance-card{ background:var(--surface); border:1px solid var(--border); padding:36px; }
+  .finance-card ul{ margin:18px 0 24px; display:flex; flex-direction:column; gap:10px; }
+  .finance-card li{ font-size:14.5px; color:var(--ink-soft); padding-left:18px; position:relative; }
+  .finance-card li::before{ content:''; position:absolute; left:0; top:9px; width:6px; height:6px; background:var(--red); }
+
+  /* trade-in */
+  .steps-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:28px; }
+  .step .num{ font-family:var(--font-display); font-size:36px; color:var(--red); display:block; margin-bottom:10px; }
+  .step p{ font-size:14px; }
+
+  /* banks */
+  .banks-row{ display:flex; flex-wrap:wrap; gap:20px; }
+  .banks-row .img-slot{ width:170px; height:70px; font-size:12px; }
+
+  /* reviews */
+  .reviews-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; }
+  .review-card{ background:var(--surface); border:1px solid var(--border); padding:26px; }
+  .review-card .stars{ color:var(--red); font-size:14px; margin-bottom:12px; letter-spacing:2px; }
+  .review-card p{ font-size:14.5px; margin-bottom:16px; }
+  .review-author{ display:flex; align-items:center; gap:12px; }
+  .review-author .img-slot{ width:40px; height:40px; border-radius:50%; font-size:9px; padding:2px; }
+  .review-author b{ font-size:14px; display:block; }
+  .review-author span{ font-size:12px; color:var(--muted); }
+
+  /* about */
+  .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; }
+  .stats-row{ display:flex; gap:36px; margin-top:28px; }
+  .stat b{ font-family:var(--font-display); font-size:30px; color:var(--red); display:block; }
+  .stat span{ font-size:13px; color:var(--muted); }
+
+  /* contacts */
+  .contacts-grid{ display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+  .contact-info li{ display:flex; gap:12px; font-size:14.5px; color:var(--ink-soft); padding:10px 0; border-bottom:1px solid var(--border); }
+  .contact-info b{ color:var(--ink); min-width:110px; display:inline-block; }
+  .lead-form input, .lead-form textarea{
+    width:100%; font-family:var(--font-sans); font-size:14px; color:var(--ink);
+    background:var(--surface); border:1px solid var(--border); padding:12px 14px; margin-bottom:12px; border-radius:2px;
+  }
+  .lead-form textarea{ min-height:80px; resize:vertical; }
+  .lead-form .btn{ width:100%; text-align:center; border:none; }
+  .lead-form .fine{ font-size:12px; color:var(--muted); margin-top:10px; }
+
+  footer{ background:#000; padding:60px 0 22px; font-size:14px; }
+  .footer-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:36px; padding-bottom:40px; border-bottom:1px solid var(--border); }
+  footer h4{ font-size:14px; margin-bottom:14px; color:#fff; }
+  footer ul{ display:flex; flex-direction:column; gap:9px; color:var(--ink-soft); }
+  footer ul a:hover{ color:var(--red); }
+  .footer-bottom{ display:flex; justify-content:space-between; padding-top:20px; font-size:13px; color:var(--muted); flex-wrap:wrap; gap:8px; }
+
+  @media (max-width:900px){
+    nav.main-nav{
+      display:none; position:absolute; top:100%; left:0; right:0;
+      background:var(--bg-alt); border-bottom:1px solid var(--border);
+      flex-direction:column; padding:18px 24px; gap:14px;
+    }
+    nav.main-nav.open{ display:flex; }
+    .menu-toggle{ display:block; }
+    .utility-bar .wrap{ justify-content:center; text-align:center; }
+    .slide-content h2{ font-size:32px; }
+    .slide-content{ padding:0 24px; }
+    .hero-arrow{ display:none; }
+    .ratio-hero{ min-height:460px; }
+    .cars-grid{ grid-template-columns:1fr 1fr; }
+    .finance-grid{ grid-template-columns:1fr; }
+    .steps-grid{ grid-template-columns:1fr 1fr; }
+    .reviews-grid{ grid-template-columns:1fr; }
+    .about-grid{ grid-template-columns:1fr; gap:32px; }
+    .contacts-grid{ grid-template-columns:1fr; }
+    .footer-grid{ grid-template-columns:1fr; gap:26px; }
+  }
+  @media (max-width:560px){
+    .cars-grid{ grid-template-columns:1fr; }
+  }
+
+  .crumbs{ font-size:13px; color:var(--muted); padding:28px 0 0; }
+  .crumbs a:hover{ color:var(--red); }
+  .crumbs span{ margin:0 8px; }
+  .car-hero{ padding:28px 0 70px; }
+  .car-top{ display:grid; grid-template-columns:1.45fr 1fr; gap:44px; align-items:start; }
+  .car-photo{ border:1px solid var(--border); background:var(--bg-alt); }
+  .car-photo img{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
+  .car-summary h1{ font-size:40px; text-transform:uppercase; margin-bottom:12px; }
+  .car-summary .lead{ font-size:16px; margin-bottom:22px; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px; }
+  .badge{ font-size:12.5px; border:1px solid var(--border); padding:6px 12px; border-radius:999px; color:var(--ink-soft); }
+  .price-box{ background:var(--surface); border:1px solid var(--border); padding:24px; margin-bottom:18px; }
+  .price-box .label{ font-size:13px; color:var(--muted); }
+  .price-box .big{ font-family:var(--font-display); font-size:38px; color:var(--red); line-height:1.2; margin:4px 0 6px; }
+  .price-box .credit{ font-size:14px; color:var(--ink-soft); }
+  .price-box .credit b{ color:var(--ink); }
+  .car-actions{ display:flex; gap:12px; flex-wrap:wrap; }
+  .car-actions .btn{ flex:1; text-align:center; min-width:180px; }
+  .quick-specs{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:18px; }
+  .quick-specs div{ background:var(--surface); border:1px solid var(--border); padding:14px; }
+  .quick-specs b{ font-family:var(--font-display); font-size:20px; display:block; }
+  .quick-specs span{ font-size:12px; color:var(--muted); }
+  .detail-grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px; }
+  .spec-table{ width:100%; border-collapse:collapse; margin-top:24px; font-size:14.5px; }
+  .spec-table th, .spec-table td{ text-align:left; padding:12px 0; border-bottom:1px solid var(--border); vertical-align:top; }
+  .spec-table th{ color:var(--muted); font-weight:500; width:45%; }
+  .spec-table td{ color:var(--ink); }
+  .about-car p{ margin-top:20px; }
+  .feature-list{ display:grid; grid-template-columns:1fr 1fr; gap:10px 20px; margin-top:24px; }
+  .feature-list li{ font-size:14px; color:var(--ink-soft); padding-left:18px; position:relative; }
+  .feature-list li::before{ content:''; position:absolute; left:0; top:9px; width:6px; height:6px; background:var(--red); }
+  .cta-band{ display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
+  .others-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:36px; }
+  @media (max-width:900px){
+    .car-top, .detail-grid, .cta-band{ grid-template-columns:1fr; gap:32px; }
+    .car-summary h1{ font-size:30px; }
+    .others-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:560px){
+    .others-grid{ grid-template-columns:1fr; }
+    .quick-specs{ grid-template-columns:1fr 1fr; }
+    .feature-list{ grid-template-columns:1fr; }
+    .car-actions .btn{ min-width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="utility-bar">
+  <div class="wrap">
+    <span>Ежедневно с 8:00 до 21:00</span>
+    <span>г. Город, ул. Улица, д. 1</span>
+    <span><strong>+7 (___) ___-__-__</strong></span>
+  </div>
+</div>
+
+<header class="site">
+  <div class="header-row">
+    <a href="index.html" class="logo">Авто<span>салон</span></a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html#stock">В наличии</a>
+      <a href="index.html#finance">Автокредит</a>
+      <a href="index.html#finance">Рассрочка</a>
+      <a href="index.html#trade-in">Trade-In</a>
+      <a href="index.html#banks">Банки</a>
+      <a href="index.html#reviews">Отзывы</a>
+      <a href="index.html#contacts">Контакты</a>
+      <a href="index.html#about">О компании</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="wishlistBtn" aria-label="Избранное">&#9825;</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<button class="call-float" id="callFloat" aria-label="Позвонить">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+</button>
+
+<div class="wrap crumbs">
+  <a href="index.html">Главная</a><span>/</span><a href="index.html#stock">В наличии</a><span>/</span>Porsche Cayenne Coupé
+</div>
+
+<section class="car-hero">
+  <div class="wrap car-top">
+    <div class="car-photo">
+      <!-- Фото автомобиля. Для галереи можно добавить ещё изображения ниже -->
+      <img src="img/porsche-cayenne.webp" alt="Porsche Cayenne Coupé, белый">
+    </div>
+    <div class="car-summary">
+      <div class="eyebrow">В наличии</div>
+      <h1>Porsche Cayenne Coupé</h1>
+      <p class="lead">Спортивный силуэт и практичность большого кроссовера: Cayenne, который управляется как Porsche.</p>
+      <div class="badges">
+        <span class="badge">2025 г.</span>
+        <span class="badge">Новый</span>
+        <span class="badge">Кроссовер-купе</span>
+        <span class="badge">Белый</span>
+      </div>
+      <div class="price-box">
+        <div class="label">Цена</div>
+        <div class="big">от 14 200 000 ₽</div>
+        <div class="credit">В рассрочку — <b>от 394 000 ₽/мес</b> на 36 месяцев</div>
+      </div>
+      <div class="car-actions">
+        <a href="#request" class="btn">Оставить заявку</a>
+        <a href="#request" class="btn btn-ghost">Записаться на тест-драйв</a>
+      </div>
+      <div class="quick-specs">
+        <div><b>353 л.с.</b><span>мощность</span></div>
+        <div><b>6,0 с</b><span>0–100 км/ч</span></div>
+        <div><b>3.0 л V6</b><span>двигатель</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-alt">
+  <div class="wrap detail-grid">
+    <div>
+      <div class="eyebrow">Характеристики</div>
+      <h2>Технические данные</h2>
+      <table class="spec-table">
+          <tr><th>Год выпуска</th><td>2025</td></tr>
+          <tr><th>Пробег</th><td>Новый</td></tr>
+          <tr><th>Кузов</th><td>Кроссовер-купе</td></tr>
+          <tr><th>Двигатель</th><td>3.0 л V6, турбо</td></tr>
+          <tr><th>Мощность</th><td>353 л.с.</td></tr>
+          <tr><th>Разгон 0–100 км/ч</th><td>6,0 с</td></tr>
+          <tr><th>Коробка передач</th><td>АКПП Tiptronic S, 8 ступеней</td></tr>
+          <tr><th>Привод</th><td>Полный</td></tr>
+          <tr><th>Топливо</th><td>Бензин</td></tr>
+          <tr><th>Цвет</th><td>Белый</td></tr>
+      </table>
+    </div>
+    <div class="about-car">
+      <div class="eyebrow">Об автомобиле</div>
+      <h2>Описание</h2>
+      <p>Купе-версия отличается более низкой линией крыши, активным задним спойлером и двумя отдельными задними креслами. Пневмоподвеска и система PASM делают машину комфортной в городе и собранной на трассе.</p>
+      <ul class="feature-list">
+          <li>Пневмоподвеска с PASM</li>
+          <li>Активный задний спойлер</li>
+          <li>Панорамная стеклянная крыша</li>
+          <li>Пакет Sport Chrono</li>
+          <li>Матричные LED-фары</li>
+          <li>Камеры кругового обзора</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="request">
+  <div class="wrap cta-band">
+    <div>
+      <div class="eyebrow">Заявка</div>
+      <h2>Узнать подробности о Porsche Cayenne Coupé</h2>
+      <p style="margin-top:16px;">Менеджер перезвонит в течение 15 минут, ответит на вопросы, рассчитает кредит или рассрочку и пригласит на тест-драйв.</p>
+    </div>
+    <div class="lead-form">
+      <input type="text" placeholder="Ваше имя">
+      <input type="tel" placeholder="Телефон">
+      <textarea>Интересует Porsche Cayenne Coupé</textarea>
+      <button class="btn">Отправить заявку</button>
+      <p class="fine">Нажимая кнопку, вы соглашаетесь с политикой обработки данных.</p>
+    </div>
+  </div>
+</section>
+
+<section class="bg-alt">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:0;">
+      <div>
+        <div class="eyebrow">Смотрите также</div>
+        <h2>Другие автомобили</h2>
+      </div>
+      <a href="index.html#stock" class="btn btn-ghost" style="padding:12px 24px;">Все автомобили</a>
+    </div>
+    <div class="others-grid">
+      <div class="car-card">
+        <a href="car-bmw-8-cabrio.html"><img src="img/bmw-8-cabrio.jpg" alt="BMW 8 Cabriolet" class="photo ratio-wide" loading="lazy"></a>
+        <div class="body">
+          <h3>BMW 8 Cabriolet</h3>
+          <div class="car-specs">2025 г. · кабриолет · 530 л.с.</div>
+          <div class="car-price">от 12 800 000 ₽</div>
+          <a href="car-bmw-8-cabrio.html" class="btn btn-ghost">Подробнее</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <a href="car-rolls-royce-cullinan.html"><img src="img/rolls-royce-cullinan.jpg" alt="Rolls-Royce Cullinan" class="photo ratio-wide" loading="lazy"></a>
+        <div class="body">
+          <h3>Rolls-Royce Cullinan</h3>
+          <div class="car-specs">2025 г. · внедорожник · 571 л.с.</div>
+          <div class="car-price">от 54 900 000 ₽</div>
+          <a href="car-rolls-royce-cullinan.html" class="btn btn-ghost">Подробнее</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <a href="car-bentley-bentayga.html"><img src="img/bentley-bentayga.jpg" alt="Bentley Bentayga" class="photo ratio-wide" loading="lazy"></a>
+        <div class="body">
+          <h3>Bentley Bentayga</h3>
+          <div class="car-specs">2025 г. · внедорожник · 550 л.с.</div>
+          <div class="car-price">от 29 900 000 ₽</div>
+          <a href="car-bentley-bentayga.html" class="btn btn-ghost">Подробнее</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="margin-bottom:14px;">Авто<span>салон</span></div>
+        <p style="max-width:34ch;">Продажа новых и проверенных автомобилей, автокредит, рассрочка и trade-in.</p>
+      </div>
+      <div>
+        <h4>Навигация</h4>
+        <ul>
+          <li><a href="index.html#stock">В наличии</a></li>
+          <li><a href="index.html#finance">Автокредит и рассрочка</a></li>
+          <li><a href="index.html#trade-in">Trade-In</a></li>
+          <li><a href="index.html#reviews">Отзывы</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Контакты</h4>
+        <ul>
+          <li>+7 (___) ___-__-__</li>
+          <li>info@автосалон.ru</li>
+          <li>г. Город, ул. Улица, д. 1</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Название автосалона. Все права защищены.</span>
+      <span>Сайт разработан [ваше имя / студия]</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('menuToggle').addEventListener('click', function(){
+    document.getElementById('mainNav').classList.toggle('open');
+  });
+  document.getElementById('wishlistBtn').addEventListener('click', function(){
+    this.style.color = this.style.color === 'var(--red)' ? '' : 'var(--red)';
+  });
+  document.getElementById('callFloat').addEventListener('click', function(){
+    window.location.href = 'tel:+70000000000';
+  });
+</script>
+</body>
+</html>
